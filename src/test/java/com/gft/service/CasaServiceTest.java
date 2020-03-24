@@ -86,9 +86,50 @@ public class CasaServiceTest {
 		casas.add(casa2);
 		
 		//acao
+		casasService.salvar(casa);
+		casasService.salvar(casa2);
 		Mockito.when(casasService.listar()).thenReturn(casas);
 		
 		//verificacao
 		
+	}
+	
+	@Test
+	public void deveAtualizarCasa() {
+		//cenario
+		Casa casa = new Casa();
+		casa.setNomeCasa("Casa de Show 1");
+		casa.setEndereco("Rua das Palmeiras");
+		
+		casasService.salvar(casa);
+		
+		casa.setNomeCasa("Casa de Show 2");
+		casa.setEndereco("Rua das Oliveiras");
+		
+		//acao
+		casasService.salvar(casa);
+		
+		//verificacao
+		Assert.assertThat(casa.getNomeCasa(), is(equalTo("Casa de Show 2")));
+		Assert.assertThat(casa.getEndereco(), is(equalTo("Rua das Oliveiras")));
+	}
+	
+	@Test
+	public void devePesquisarCasa() throws Exception {
+		//cenario
+		Casa casa = new Casa();
+		casa.setNomeCasa("Casa de Show A");
+		casa.setEndereco("Rua das Palmeiras");
+		
+		Casa casa2 = new Casa();
+		casa2.setNomeCasa("Casa de Show B");
+		casa2.setEndereco("Rua das Oliveiras");
+		List<Casa> casasList = new ArrayList<Casa>();
+		
+		//acao
+		casasService.pesquisar(casasList, "Casa de Show B");
+		
+		//verificacao
+		Assert.assertThat(casasList.size(), is(equalTo(1)));
 	}
 }
