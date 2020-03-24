@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/flickity.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="../css/bootstrap-datepicker.standalone.min.css">
+
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark">
+		<a class="navbar-brand" href="/home">Casa de Show</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/home">Home
+
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="/casashow">Casas
+						de Show</a></li>
+				<li class="nav-item"><a class="nav-link" href="/evento">Eventos</a></li>
+				<li class="nav-item"><a class="nav-link" href="/carrinho">Carrinho</a></li>
+				<li class="nav-item"><a class="nav-link" href="/historico">Histórico</a></li>
+
+			</ul>
+			<div class="btn-logout">
+				<a href="/cadastrousuario">Logout</a>
+			</div>
+		</div>
+	</nav>
+
+	<section layout:fragment="conteudo"></section>
+
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/bootstrap-datepicker.min.js"></script>
+	<script src="../js/bootstrap-datepicker.pt-BR.min.js"></script>
+	<script src="../js/jquery.maskMoney.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/flickity/1.0.0/flickity.pkgd.js"></script>
+	<script src="../js/casaShow.js"></script>
+
+	
+
+</body>
+</html>

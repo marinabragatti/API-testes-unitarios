@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="LayoutPadrao">
+
+<head>
+
+<title>Histórico de Compras</title>
+
+</head>
+
+<section layout:fragment="conteudo">
+	<form class="form-horizontal" method="POST" action="/historico"
+		th:object="${carrinho}">
+		
+		<div class=" table-carrinho">
+			Info do usuário
+		</div>
+
+		<div class=" table-carrinho">
+			<table class="table table-bordered table-striped ">
+				<thead th:if="${not #lists.isEmpty(listaCarrinho)}">
+					<tr>
+						<th class="text-center">Nome do Evento</th>
+						<th class="text-center">Ingressos Disponíveis</th>
+						<th class="text-center">Data</th>
+						<th class="text-center">Valor do Ingresso</th>
+						<th class="text-center">Gênero Musical</th>
+						<th class="text-center">Casa de Show</th>
+						<th class="text-center">Quantidade</th>
+						<th class=""></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="carrinho : ${listaCarrinho}">
+						<td class="text-center" th:text="${carrinho.evento.nomeEvento}"></td>
+						<td class="text-center" th:text="${{carrinho.ingressoDisp}}"></td>
+						<td class="text-center" th:text="${{carrinho.evento.dataEvento}}"></td>
+						<td class="text-center"
+							th:text="|R$ ${{carrinho.evento.valorIngresso}}|"></td>
+						<td class="text-center"
+							th:text="${carrinho.evento.genero.generos}"></td>
+						<td class="text-center"
+							th:text="${carrinho.evento.casaShow.nomeCasa}"></td>
+						<td class="text-center"><span
+							th:text="${carrinho.quantidade}"></span> </td>
+
+						<td class="text-center"></td>
+
+					</tr>
+
+					<tr th:if="${not #lists.isEmpty(listaCarrinho)}">
+						<td colspan="5" class="text-right">TOTAL</td>
+						<td class="text-right" colspan="3"><span
+							th:text="|R$ ${{compra.valorTotal}}|"></span></td>
+					</tr>
+
+
+
+
+				</tbody>
+
+			</table>
+
+			<div class="form-group row" th:if="${not #lists.isEmpty(listaCarrinho)}">
+				<label for="formaPagto"
+					class="col-8 control-label col-form-label text-right">Forma
+					de Pagamento </label>
+				<div class="col-sm-4" th:if="${not #lists.isEmpty(listaCarrinho)}">
+					<label th:text="${compra.formaPagto}">
+					</label>
+				</div>
+			</div>
+
+			<div class="text-center div-semcasa"
+				th:if="${#lists.isEmpty(listaCarrinho)}">Sem histórico de compras :(</div>
+
+			
+		</div>
+
+
+
+	</form>
+</section>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="LayoutPadrao">
+
+<head>
+
+<title>Eventos</title>
+
+</head>
+
+<section layout:fragment="conteudo">
+	<form class="form-horizontal" method="POST" action="/evento"
+		th:object="${evento}" th:if="${not #lists.isEmpty(casaShow)}">
+		<div class="alert alert-danger" role="alert"
+			th:if="${#fields.hasAnyErrors()}">
+			<div th:each="detailedError : ${#fields.detailedErrors()}">
+				<span th:text="${detailedError.message}"></span>
+			</div>
+		</div>
+		<div class="alert alert-danger" role="alert"
+			th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		<div class="alert alert-success" role="alert"
+			th:if="${!#strings.isEmpty(mensagem1)}">
+			<span th:text="${mensagem1}"></span>
+		</div>
+		<div class="card">
+			<div class="card-header text-center text-white">
+				<h2 class="new-header">Novo Evento</h2>
+			</div>
+			<div class="card-body card-bordered text-right">
+				<input type="hidden" th:field="*{codigo}">
+				<div class="form-group row">
+					<label for="nomeEvento" class="col-4 control-label col-form-label">Evento</label>
+					<div class="col-sm-5">
+						<input type="text" class="form-control" id="nomeEvento"
+							th:field="*{nomeEvento}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="capacidade" class="col-4 control-label col-form-label">Capacidade</label>
+					<div class="col-sm-3">
+						<input type="number" min="1" class="form-control" id="capacidade"
+							th:field="*{capacidade}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="dataEvento" class="col-4 control-label col-form-label">Data</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="dataEvento"
+							th:field="*{dataEvento}" data-provide="datepicker"
+							data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+							data-date-autoclose="true" data-date-today-highlight="true"
+							data-date-orientation="bottom">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="valorIngresso"
+						class="col-4 control-label col-form-label">Valor do
+						Ingresso</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control js-currency"
+							id="valorIngresso" th:field="*{valorIngresso}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="casaShow" class="col-4 control-label col-form-label">Casa
+						de Show</label>
+					<div class="col-sm-3">
+						<select class="form-control" name="casaShow">
+							<option th:each="casaShow : ${casaShow}"
+								th:value="${casaShow.codigo}" th:text="${casaShow.nomeCasa}"
+								th:field="*{casaShow.nomeCasa}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="genero" class="col-4 control-label col-form-label">Gênero
+						Musical</label>
+					<div class="col-sm-3">
+						<select class="form-control" name="genero">
+							<option th:each="genero : ${todosGeneros}" th:value="${genero}"
+								th:text="${genero.generos}" th:field="*{genero}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-6">
+						<button type="submit" class="btn btn-primary btn-enviar">Enviar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div class="table-responsive table-casa">
+		<table class="table table-bordered table-striped">
+			<thead th:if="${not #lists.isEmpty(casaShow)}">
+				<tr>
+					<th class="text-center">#</th>
+					<th class="text-center">Nome do Evento</th>
+					<th class="text-center">Capacidade</th>
+					<th class="text-center">Data</th>
+					<th class="text-center">Valor do Ingresso</th>
+					<th class="text-center">Gênero Musical</th>
+					<th class="text-center">Casa de Show</th>
+					<th class=""></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="evento : ${eventos}">
+					<td class="text-center" th:text="${evento.codigo}"></td>
+					<td class="text-center" th:text="${evento.nomeEvento}"></td>
+					<td class="text-center" th:text="${{evento.capacidade}}"></td>
+					<td class="text-center" th:text="${{evento.dataEvento}}"></td>
+					<td class="text-center" th:text="|R$ ${{evento.valorIngresso}}|"></td>
+					<td class="text-center" th:text="${evento.genero.generos}"></td>
+					<td class="text-center" th:text="${evento.casaShow.nomeCasa}"></td>
+					<td class="text-center"><a class="btn btn-link btn-xs"
+						th:href="@{/evento/{codigo}(codigo=${evento.codigo})}"
+						title="Editar"> <i class="far fa-edit"></i>
+					</a> <a class="btn btn-link btn-xs"
+						th:attr="data-codigo=${evento.codigo}" data-toggle="modal"
+						data-target="#confirmacaoExclusaoModal" title="Excluir"> <i
+							class="fas fa-trash-alt"></i>
+
+					</a></td>
+				</tr>
+
+				<tr>
+					<td class="text-center" colspan="8"
+						th:if="${#lists.isEmpty(eventos) and not #lists.isEmpty(casaShow)}">Nenhum
+						Evento cadastrado</td>
+				</tr>
+			</tbody>
+			
+		</table>
+		<div layout:insert="ConfirmacaoExclEvento"></div>
+		<div class="text-center div-semcasa" 
+					th:if="${#lists.isEmpty(eventos) and #lists.isEmpty(casaShow)}">Cadastre
+					uma Casa de Show para poder cadastrar um Evento.
+					
+		</div>
+	</div>
+
+
+</section>
+
+</html>

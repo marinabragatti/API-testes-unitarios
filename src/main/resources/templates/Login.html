@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
+
+
+</head>
+
+<body class="body-login">
+	<form class="login-form" method="POST" action="/login">
+		<div class="alert alert-danger" role="alert" th:if="${param.error}">
+			<span> Usuário ou Senha inválidos</span>
+		</div>
+		<h1>Login</h1>
+
+		<div class="txtb">
+			<input type="text" name="username" id="username" required> <span
+				data-placeholder="Usuário"></span>
+
+		</div>
+
+		<div class="txtb">
+			<input type="password" name="password" id="password" required>
+			<span data-placeholder="Senha"></span>
+
+		</div>
+
+		<input type="submit" class="logbtn" value="Login">
+
+		<div class="bottom-text">
+			Não é cadastrado? <a href="/cadastrousuario">Cadastre-se</a>
+		</div>
+
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+
+<head>
+
+<title>Home</title>
+
+</head>
+
+<section layout:fragment="conteudo">
+
+
+	<!-- Flickity HTML init -->
+	<form class="form-horizontal" method="POST" action="/home"
+		th:object="${evento}">
+		<div class="gallery js-flickity"
+			data-flickity-options='{ "wrapAround": true }'>
+			<div class="gallery-cell" th:each="evento : ${eventos}">
+				<div class="div-gallery">
+
+					<label class="show" th:text="${evento.nomeEvento}"></label> <br>
+					<div class="dados-show">
+						<label>Ingresso: </label> <label
+							th:text="|R$ ${{evento.valorIngresso}}|"></label> <br> <label>Data:
+						</label> <label th:text="${{evento.dataEvento}}"></label> <br> <label>Local:
+						</label> <label th:text="${evento.casaShow.nomeCasa}"></label> <br> <br>
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+		</div>
+
+		<div class="row" th:each="evento : ${eventos}">
+
+			<div class="col-lg-4 col-md-6 mb-4 row"
+				th:if="${!#lists.isEmpty(eventos)}">
+				<div class="card h-100">
+					<a href="#"><img class="card-img-top"
+						src="http://placehold.it/700x400" alt=""></a>
+					<div class="card-body">
+						<h4 class="card-title">
+							<a th:href="@{/carrinho/{codigo}(codigo=${evento.codigo})}"
+								th:text="${evento.nomeEvento}"></a>
+						</h4>
+						<h5 th:text="|R$ ${{evento.valorIngresso}}|"></h5>
+						<label>Data: </label> <label class="card-text"
+							th:text="${{evento.dataEvento}}"></label> <br> <label>Local:
+						</label> <label class="card-text" th:text="${evento.casaShow.nomeCasa}"></label>
+
+					</div>
+					<div class="card-footer">
+						<a class="btn btn-block btn-enviar btn-comprar text-uppercase"
+							th:href="@{/carrinho/{codigo}(codigo=${evento.codigo})}"
+							title="Comprar"> </a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="gallery js-flickity" th:if="${#lists.isEmpty(eventos)}"
+			data-flickity-options='{ "wrapAround": true }'>
+			<div class="gallery-cell">
+				<div class="div-gallery no-event">
+					<label class="show"> Nenhum Evento disponível :( </label>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</section>
+
+</html>
+
+<!-- <div class="table-responsive table-casa">
+<table class="table table-bordered table-striped">
+<thead th:if="${!#lists.isEmpty(eventos)}">
+<tr>
+<th class="text-center">Nome do Evento</th>
+<th class="text-center">Data</th>
+<th class="text-center">Valor do Ingresso</th>
+<th class="text-center">Gênero Musical</th>
+<th class="text-center">Casa de Show</th>
+
+<th class=""></th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="evento : ${eventos}">
+<td class="text-center" th:text="${evento.nomeEvento}"></td>
+<td class="text-center" th:text="${{evento.dataEvento}}"></td>
+<td class="text-center"
+th:text="|R$ ${{evento.valorIngresso}}|"></td>
+<td class="text-center"
+th:text="${evento.genero.generos}"></td>
+<td class="text-center"
+th:text="${evento.casaShow.nomeCasa}"></td>
+<td class="text-center"><a class="btn btn-primary btn-enviar btn-comprar"
+th:href="@{/carrinho/{codigo}(codigo=${evento.codigo})}"
+title="Comprar">
+</a>
+
+</td>
+</tr>
+</tbody>
+</table>
+</div> -->

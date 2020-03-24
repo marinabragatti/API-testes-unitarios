@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cadastre-se</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous">
+
+
+
+</head>
+
+<body class="body-login">
+	<form class="login-form" method="POST" action="/cadastrousuario"
+		th:object="${usuario}">
+		<div class="alert alert-success" role="alert"
+			th:if="${!#strings.isEmpty(mensagem1)}">
+			<span th:text="${mensagem1}"></span>
+		</div>
+		<div class="alert alert-danger" role="alert"
+			th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}"></span>
+		</div>
+		<h1>Cadastro</h1>
+
+		<div class="txtb">
+			<input type="text" name="username" id="username"
+				th:field="*{username}" required> <span
+				data-placeholder="Usuário"></span>
+
+		</div>
+
+		<div class="txtb">
+			<input type="password" name="password" id="password"
+				th:field="*{password}" required> <span
+				data-placeholder="Senha"></span>
+
+		</div>
+
+		<input type="submit" class="logbtn" value="Cadastrar">
+
+		<div class="bottom-text">
+			<a href="/login">Voltar para Login</a>
+		</div>
+
+	</form>
+
+
+</body>
+
+</html>
