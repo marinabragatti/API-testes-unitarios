@@ -25,13 +25,13 @@ import com.gft.repository.CasasShowsInter;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CasaServiceTest {
-	
+
 	@InjectMocks
 	private CasasService casasService;
-	
+
 	@Mock
 	private CasasShowsInter casasInterface;
-	
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -39,97 +39,105 @@ public class CasaServiceTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
+
 	@Test
 	public void deveSalvarCasaComSucesso() {
-		//cenario
+		// cenario
 		Casa casa = new Casa();
 		casa.setNomeCasa("Casa de Show 1");
 		casa.setEndereco("Rua das Palmeiras");
-		
-		//acao
+
+		// acao
 		casasService.salvar(casa);
-		
-		//verificacao
+
+		// verificacao
 		Assert.assertThat(casa.getNomeCasa(), is(equalTo("Casa de Show 1")));
 		Assert.assertThat(casa.getEndereco(), is(equalTo("Rua das Palmeiras")));
 	}
-	
+
 	@Test
 	public void deveDeletarCasaComSucesso() throws Exception {
-		//cenario
+		// cenario
 		Casa casa = new Casa();
 		casa.setCodigo((long) 1);
 		casa.setNomeCasa("Casa de Show 1");
 		casa.setEndereco("Rua das Palmeiras");
-		
-		//acao
-		casasService.deletar(casa.getCodigo());
-		
-		//verificacao
+
+		// acao
+		try {
+			casasService.deletar(casa.getCodigo());
+		} catch (Exception e) {
+			Assert.assertThat(e.getMessage(), is("Casa não encontrada."));
+		}
+
+		// verificacao
 		Mockito.verify(casasInterface, times(1)).deleteById(casa.getCodigo());
 	}
-	
+
 	@Test
 	public void deveListarCasa() {
-		//cenario
+		// cenario
 		Casa casa = new Casa();
 		casa.setNomeCasa("Casa de Show 1");
 		casa.setEndereco("Rua das Palmeiras");
-		
+
 		Casa casa2 = new Casa();
 		casa2.setNomeCasa("Casa de Show 2");
 		casa2.setEndereco("Rua das Oliveiras");
-		
+
 		List<Casa> casas = new ArrayList<Casa>();
 		casas.add(casa);
 		casas.add(casa2);
-		
-		//acao
+
+		// acao
 		casasService.salvar(casa);
 		casasService.salvar(casa2);
 		Mockito.when(casasService.listar()).thenReturn(casas);
-		
-		//verificacao
-		
+
+		// verificacao
+		Assert.assertThat(casas.size(), is(equalTo(2)));
 	}
-	
+
 	@Test
 	public void deveAtualizarCasa() {
-		//cenario
+		// cenario
 		Casa casa = new Casa();
 		casa.setNomeCasa("Casa de Show 1");
 		casa.setEndereco("Rua das Palmeiras");
-		
+
 		casasService.salvar(casa);
-		
+
 		casa.setNomeCasa("Casa de Show 2");
 		casa.setEndereco("Rua das Oliveiras");
-		
-		//acao
+
+		// acao
 		casasService.salvar(casa);
-		
-		//verificacao
+
+		// verificacao
 		Assert.assertThat(casa.getNomeCasa(), is(equalTo("Casa de Show 2")));
 		Assert.assertThat(casa.getEndereco(), is(equalTo("Rua das Oliveiras")));
 	}
-	
+
 	@Test
 	public void devePesquisarCasa() throws Exception {
-		//cenario
+		// cenario
 		Casa casa = new Casa();
 		casa.setNomeCasa("Casa de Show A");
 		casa.setEndereco("Rua das Palmeiras");
-		
-		Casa casa2 = new Casa();
-		casa2.setNomeCasa("Casa de Show B");
-		casa2.setEndereco("Rua das Oliveiras");
+
 		List<Casa> casasList = new ArrayList<Casa>();
-		
-		//acao
-		casasService.pesquisar(casasList, "Casa de Show B");
-		
-		//verificacao
-		Assert.assertThat(casasList.size(), is(equalTo(1)));
+
+		casasList.add(casa);
+
+		// acao
+		try {
+			casasService.pesquisar(casasList, "Casa de Show A");
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertThat(e.getMessage(), is("Casa não encontrada."));
+		}
+
+		// verificacao
+		Assert.assertThat(casasList.get(0).getNomeCasa(), is(equalTo("Casa de Show A")));
 	}
 }

@@ -21,7 +21,7 @@ public class EventosService {
 	}
 	
 	public Evento salvar(Evento evento) {
-		evento.setCodigo(null);
+		//evento.setCodigo(null);
 		return eventosInter.save(evento);
 	}
 	
